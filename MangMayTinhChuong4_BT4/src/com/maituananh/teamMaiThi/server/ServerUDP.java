@@ -6,22 +6,28 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 public class ServerUDP {
+	public final static int SERVER_PORT = 3000;
 	public static void main(String[] args) throws IOException {
-		// nhận gói tin từ Client
-		DatagramSocket serverSocket = new DatagramSocket(3000);
+		// server start
+		System.out.println("Server started ");
+		System.out.println("Waiting for messages from Client ... ");
+		DatagramSocket serverSocket = new DatagramSocket(SERVER_PORT);
+		
 		byte[] receiveData = new byte[1024];
+		// nhận gói tin từ Client
 		DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 		serverSocket.receive(receivePacket);
+		
+		// sử lý gói tin
 		String sentence = new String(receivePacket.getData());
 		String op = sentence.trim();
 		System.out.println(op);
 		String check = op.substring(0, 1);
-		String ac = op.substring(0, op.lastIndexOf("/"));
+		String ac = op.substring(1, op.lastIndexOf("/"));
 		String pass = op.substring(op.lastIndexOf("/") + 1);
 		switch (check) {
 		case "+": // thêm mới
-			ac = ac.substring(1);
-			sentence = "tài khoảng: " + ac + "\n" + "mật khẩu: " + pass;
+			sentence = "tài khoản: " + ac + "\n" + "mật khẩu: " + pass;
 			break;
 
 		default: // đăng nhập
@@ -43,6 +49,8 @@ public class ServerUDP {
 		sendData = sentence.getBytes();
 		DatagramPacket datagramPacket = new DatagramPacket(sendData, sendData.length, IPAddress, clientPort);
 		serverSocket.send(datagramPacket);
+		System.out.println("SYSTEM EXIT");
+		
 		serverSocket.close();
 	}
 }
