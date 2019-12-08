@@ -208,7 +208,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="2"/>
-                <Property name="text" type="java.lang.String" value="Login From"/>
+                <Property name="text" type="java.lang.String" value="Login Form"/>
               </Properties>
             </Component>
           </SubComponents>

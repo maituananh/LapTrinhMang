@@ -1,0 +1,2 @@
+Mở thuộc tính dự án, chọn Build-Compiling, bỏ chọn "Compile on save" 
+và chạy lại ứng dụng. Điều này sẽ đảm bảo tất cả mã nguồn của bạn được biên dịch lại trước khi chạy nó.

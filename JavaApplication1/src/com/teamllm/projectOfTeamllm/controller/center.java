@@ -55,8 +55,8 @@ public class center {
         return editdelete.timKiemName(name);
     }
 
-    public boolean login(Account sinhvien) {
-        return editdelete.login(sinhvien);
+    public int login(int code, String pass) {
+        return editdelete.login(code, pass);
     }
 
     public boolean submit(Account sinhvien) {
@@ -67,12 +67,8 @@ public class center {
         editdelete.changePass(sinhvien);
     }
 
-    public int idUserSession() {
-        return editdelete.sessionUser;
-    }
-
-    public boolean authorization() {
-        return editdelete.authorization();
+    public boolean authorization(int id) {
+        return editdelete.authorization(id);
     }
 
     public List<Class> classRoom() {

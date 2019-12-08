@@ -9,6 +9,7 @@ import java.util.List;
 import com.teamllm.projectOfTeamllm.controller.center;
 import com.teamllm.projectOfTeamllm.model.Class;
 import com.teamllm.projectOfTeamllm.model.Account;
+import com.teamllm.projectOfTeamllm.savestatic.AccStatic;
 import java.util.ArrayList;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
@@ -25,7 +26,6 @@ public final class EditUsers extends javax.swing.JFrame {
     /**
      * Creates new form edit
      */
-    private Object nameTextField;
 
     public EditUsers() {
         initComponents();
@@ -35,7 +35,7 @@ public final class EditUsers extends javax.swing.JFrame {
 
     public void addDataAtTextField() {
         center = new center();
-        sv = center.thongTinID(center.idUserSession());
+        sv = center.thongTinID(AccStatic.getIdStudent());
         combo();
 
         inputName.setText(sv.getFullname());
@@ -45,7 +45,6 @@ public final class EditUsers extends javax.swing.JFrame {
     }
 
     private void combo() {
-        List<String> listString = new ArrayList<>();
         jComboBox1.removeAllItems();
         jComboBox1.addItem("nu");
         jComboBox1.addItem("nam");

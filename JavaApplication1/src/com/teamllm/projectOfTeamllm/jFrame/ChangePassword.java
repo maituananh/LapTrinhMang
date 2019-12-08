@@ -6,9 +6,9 @@
 package com.teamllm.projectOfTeamllm.jFrame;
 
 import com.teamllm.projectOfTeamllm.controller.center;
-import com.teamllm.projectOfTeamllm.model.Gender;
 import com.teamllm.projectOfTeamllm.model.Room;
 import com.teamllm.projectOfTeamllm.model.Account;
+import com.teamllm.projectOfTeamllm.savestatic.AccStatic;
 import javax.swing.JOptionPane;
 
 /**
@@ -215,7 +215,7 @@ public class ChangePassword extends javax.swing.JFrame {
     }//GEN-LAST:event_btnChangeActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-        if (center.authorization()) {
+        if (AccStatic.changeNumberToBooleanByRole()) {
             new ListAllUsers().setVisible(true);
             this.dispose();
         } else {

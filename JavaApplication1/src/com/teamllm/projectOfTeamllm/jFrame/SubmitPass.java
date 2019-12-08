@@ -7,6 +7,7 @@ package com.teamllm.projectOfTeamllm.jFrame;
 
 import com.teamllm.projectOfTeamllm.controller.center;
 import com.teamllm.projectOfTeamllm.model.Account;
+import com.teamllm.projectOfTeamllm.savestatic.AccStatic;
 import javax.swing.JOptionPane;
 
 /**
@@ -173,23 +174,23 @@ public class SubmitPass extends javax.swing.JFrame {
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         //kiểm tra phân quyền
-        if (center.authorization()) {
+        if (AccStatic.changeNumberToBooleanByRole()) {
             new ListAllUsers().setVisible(true);
             this.dispose();
         } else {
             new Trangchu().setVisible(true);
             this.dispose();
         }
+
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
-        Account student = new Account();
+
         if (inputPassword.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(SubmitPass.this, "Vui lòng nhập đầy đủ thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
         } else {
             sinhvien.setPass(inputPassword.getText());
-            center.submit(sinhvien);
-            if (center.submit(sinhvien) == true) {
+            if (center.submit(sinhvien)) {
                 new ChangePassword().setVisible(true);
                 this.dispose();
             } else {

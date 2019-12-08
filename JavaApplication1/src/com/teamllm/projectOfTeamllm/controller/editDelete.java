@@ -15,22 +15,16 @@ import com.teamllm.projectOfTeamllm.model.House;
 import com.teamllm.projectOfTeamllm.model.Room;
 import com.teamllm.projectOfTeamllm.model.Account;
 import com.teamllm.projectOfTeamllm.model.Student;
+import com.teamllm.projectOfTeamllm.savestatic.AccStatic;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class editDelete {
 
-    List<Account> stringList1 = new ArrayList<>();
-    List<Account> stringList = new ArrayList<>();
-    List<Class> stringList2 = new ArrayList<>();
-    List<Gender> stringList3 = new ArrayList<>();
-    List<Room> stringList4 = new ArrayList<>();
     public Connection connectSQL = connect.getJDBCConnection();
 
-    static int idUser;
-    static int role;
-
     public List<Account> List() {
+        List<Account> stringList1 = new ArrayList<>();
         try {
             String sql1 = "Select account.idStudent,account.code,account.password,account.name,account.age,account.gender,account.className,account.status,room.nameRoom"
                     + " from account \n"
@@ -51,10 +45,6 @@ public class editDelete {
                 stringList1.add(new Account(id, code, pass, name, age, gender, nameClass, status, nameRoom));
 
             }
-            for (int i = 0; i < stringList1.size(); i++) {
-
-            }
-
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -63,12 +53,8 @@ public class editDelete {
     }
 
     public List<Account> ListĐK() {
+        List<Account> stringList1 = new ArrayList<>();
         try {
-//            String sql1 = "Select account.idStudent,account.code,account.password,account.name,account.age,account.gender,account.class,room.nameRoom"
-//                    + " from account \n"
-//                    + " JOIN room ON account.idRoom=room.idRoom \n"
-//                    + "JOIN flat ON room.idFlat=flat.idFlat  \n"
-//                    + "JOIN house ON  flat.idHouse=house.idhouse";
             String sql1 = "Select account.idStudent,account.code,account.password,account.name,account.age,account.gender,account.className,account.status,account.history,room.nameRoom"
                     + " from account \n"
                     + " JOIN room ON account.idRoom=room.idRoom where account.status='waiting'\n";
@@ -89,10 +75,6 @@ public class editDelete {
                 stringList1.add(new Account(id, code, pass, name, age, gender, nameClass, status, history, nameRoom));
 
             }
-            for (int i = 0; i < stringList1.size(); i++) {
-
-            }
-
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -107,12 +89,9 @@ public class editDelete {
             String sql1 = "Select * from account where idStudent = ?";
             PreparedStatement pre;
             pre = connectSQL.prepareStatement(sql1);
-            pre.setInt(1, idUser);
+            pre.setInt(1, AccStatic.getIdStudent());
             ResultSet rs = pre.executeQuery();
             while (rs.next()) {
-//               acc.setId(rs.getInt("idStudent"));
-//               acc.setCode(rs.getInt("code"));
-//               acc.setPass(rs.getString("password"));
                 acc.setFullname(rs.getString("name"));
                 acc.setId(rs.getInt("age"));
                 acc.setGender(rs.getString("gender"));
@@ -158,7 +137,7 @@ public class editDelete {
             pre.setInt(2, stringList1.getAge());
             pre.setString(3, stringList1.getGender());
             pre.setString(4, stringList1.getClassName());
-            pre.setInt(5, idUser);
+            pre.setInt(5, AccStatic.getIdStudent());
             pre.executeUpdate();
 
         } catch (SQLException e) {
@@ -166,28 +145,46 @@ public class editDelete {
         }
     }
 
-    public static int sessionUser = 0;
-    public static String genderUser;
-
-    public boolean login(Account stringList1) {
+    public int login(int code, String pass) {
         String sql = "select * from account WHERE code=? and password=?";
         Account student = new Account();
         try {
             PreparedStatement preparedStatement = connectSQL.prepareStatement(sql);
-            preparedStatement.setInt(1, stringList1.getCode());
-            preparedStatement.setString(2, stringList1.getPass().trim());
+            preparedStatement.setInt(1, code);
+            preparedStatement.setString(2, pass);
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
                 student.setId(rs.getInt("idStudent"));
-                idUser = student.getId(); // lấy id và lưu lại để sau khi cần thiết đổi pass
                 student.setCode(rs.getInt("code"));
                 student.setRole(rs.getInt("role"));
-                role = student.getRole();
                 student.setPass(rs.getString("password"));
             }
             if (student.getId() != 0) {
-                sessionUser = student.getId();
+                return student.getId();
+            } else {
+                return 0;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public boolean authorization(int id) {
+        System.out.println("id là : " + id);
+        String sql = "select * from account WHERE idStudent = ?";
+        Account student = new Account();
+        try {
+            PreparedStatement preparedStatement = connectSQL.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+            int role = 0;
+            while (rs.next()) {
+                role = rs.getInt("role");
+            }
+            if (role == 1) {
                 return true;
             } else {
                 return false;
@@ -199,34 +196,23 @@ public class editDelete {
         return false;
     }
 
-    public boolean authorization() {
-        int role = this.role;
-        if (role == 1) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean submitPass(Account stringList1) {
+    public boolean submitPass(Account ac) {
+        List<Account> stringList = new ArrayList<>();
         String sql = "select * from account WHERE idStudent=? and password=?";
         Account student = new Account();
         try {
             PreparedStatement preparedStatement = connectSQL.prepareStatement(sql);
-            preparedStatement.setInt(1, idUser);
-            preparedStatement.setString(2, stringList1.getPass().trim());
+            preparedStatement.setInt(1, AccStatic.getIdStudent());
+            preparedStatement.setString(2, ac.getPass().trim());
             ResultSet rs = preparedStatement.executeQuery();
-
             while (rs.next()) {
                 student.setId(rs.getInt("idStudent"));
-                //student.setCode(rs.getInt("code"));
                 student.setPass(rs.getString("password"));
                 stringList.add(student);
             }
             if (stringList.size() == 0) {
                 return false;
             } else {
-                sessionUser = student.getId();
                 return true;
             }
 
@@ -242,7 +228,7 @@ public class editDelete {
         try {
             pre = connectSQL.prepareStatement(sql);
             pre.setString(1, stringList1.getPass());
-            pre.setInt(2, idUser);
+            pre.setInt(2, AccStatic.getIdStudent());
             pre.executeUpdate();
 
         } catch (SQLException e) {
@@ -251,12 +237,11 @@ public class editDelete {
     }
 
     public List<Account> timKiemID(int id) {
-
+        List<Account> stringList1 = new ArrayList<>();
         String sql = "Select account.idStudent,account.code,account.password,account.name,account.age,account.gender,account.className,account.status,account.history,room.nameRoom"
                 + " from account \n"
                 + " JOIN room ON account.idRoom=room.idRoom where account.idStudent=?";
         try {
-            stringList1.removeAll(stringList1);
             PreparedStatement preparedStatement = connectSQL.prepareStatement(sql);
             Account sv = new Account(id);
             preparedStatement.setInt(1, id);
@@ -284,12 +269,11 @@ public class editDelete {
     }
 
     public List<Account> timKiemName(String name) {
-
+        List<Account> stringList1 = new ArrayList<>();
         String sql = "Select account.idStudent,account.code,account.password,account.name,account.age,account.gender,account.className,account.status,account.history,room.nameRoom"
                 + " from account \n"
                 + " JOIN room ON account.idRoom=room.idRoom where account.name like ?";
         try {
-            stringList1.removeAll(stringList1);
             PreparedStatement preparedStatement = connectSQL.prepareStatement(sql);
             Account sv = new Account(name);
             preparedStatement.setString(1, name);
@@ -317,11 +301,11 @@ public class editDelete {
     }
 
     public List<Account> timKiemCode(int code) {
+        List<Account> stringList1 = new ArrayList<>();
         String sql = "Select account.idStudent,account.code,account.password,account.name,account.age,account.gender,account.className,account.status,account.history,room.nameRoom"
                 + " from account \n"
                 + " JOIN room ON account.idRoom=room.idRoom where account.code=?";
         try {
-            stringList1.removeAll(stringList1);
             PreparedStatement preparedStatement = connectSQL.prepareStatement(sql);
             Account sv = new Account(code);
             preparedStatement.setInt(1, code);
@@ -348,7 +332,6 @@ public class editDelete {
     }
 
     public Student thongTinRoom(int id) {
-
         try {
             Student sv = new Student();
             String sql1 = "Select * from account \n"
@@ -363,10 +346,6 @@ public class editDelete {
                 sv.setIdRoom(rs.getInt("idRoom"));
 
             }
-            for (int i = 0; i < stringList1.size(); i++) {
-
-            }
-
             return sv;
         } catch (SQLException e) {
             // TODO Auto-generated catch block
@@ -383,13 +362,6 @@ public class editDelete {
             pre = connectSQL.prepareStatement(sql);
             pre.setString(1, status);
             pre.setInt(2, code);
-
-//            pre.setString(2, stringList1.getPass());
-//            pre.setString(3, stringList1.getFullname());
-//            pre.setInt(4, stringList1.getAge());
-//            pre.setString(5, stringList1.getGender());
-//            pre.setString(6, stringList1.getClassName());
-//            pre.setInt(2, idUser);
             pre.executeUpdate();
 
         } catch (SQLException e) {
@@ -422,13 +394,6 @@ public class editDelete {
             pre = connectSQL.prepareStatement(sql);
             pre.setInt(1, room);
             pre.setInt(2, code);
-
-//            pre.setString(2, stringList1.getPass());
-//            pre.setString(3, stringList1.getFullname());
-//            pre.setInt(4, stringList1.getAge());
-//            pre.setString(5, stringList1.getGender());
-//            pre.setString(6, stringList1.getClassName());
-//            pre.setInt(2, idUser);
             pre.executeUpdate();
 
         } catch (SQLException e) {
@@ -453,7 +418,7 @@ public class editDelete {
     }
 
     public List<Class> classRoom() {
-
+        List<Class> listST = new ArrayList<>();
         try {
             String sql1 = "Select * from class";
             PreparedStatement pre;
@@ -463,14 +428,14 @@ public class editDelete {
                 int id = rs.getInt("idClass");
                 String code = rs.getString("codeClass");
                 String name = rs.getString("nameClass");
-                stringList2.add(new Class(id, code, name));
+                listST.add(new Class(id, code, name));
             }
 
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return stringList2;
+        return listST;
     }
 
     public String getGenderUser(int idUser) {
@@ -600,6 +565,7 @@ public class editDelete {
     }
 
     public List<Room> ListRoom(String namOrNu) {
+        List<Room> stringList1 = new ArrayList<>();
         try {
             String sql1 = "SELECT * FROM ltm.room"
                     + " join flat on room.idFlat=flat.idFlat "
@@ -615,13 +581,13 @@ public class editDelete {
                 int currentAmount = rs.getInt("currentAmount");
                 String nameHouse = rs.getString("nameHouse");
                 String nameFlat = rs.getString("nameFlat");
-                stringList4.add(new Room(idRoom, name, gender, amount, currentAmount, nameHouse, nameFlat));
+                stringList1.add(new Room(idRoom, name, gender, amount, currentAmount, nameHouse, nameFlat));
             }
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return stringList4;
+        return stringList1;
     }
 
     public int timRoom(String room, String flat, String house) {
@@ -668,7 +634,7 @@ public class editDelete {
     public String findStatusByIdUser() {
         String status = "";
         try {
-            String sql = "SELECT account.status FROM ltm.account where " + this.idUser;
+            String sql = "SELECT account.status FROM ltm.account where " + AccStatic.getIdStudent();
             PreparedStatement pre = connectSQL.prepareStatement(sql);
             ResultSet rs = pre.executeQuery(sql);
             while (rs.next()) {
@@ -681,8 +647,8 @@ public class editDelete {
     }
 
     List<Account> ListUserOfRoom(int idRoom) {
+        List<Account> stringList1 = new ArrayList<>();
         try {
-
             String sql1 = "Select account.idStudent,account.code,account.password,account.name,account.age,account.gender,account.className,account.status,account.history,room.nameRoom"
                     + " from account \n"
                     + " JOIN room ON account.idRoom=room.idRoom \n"
@@ -702,12 +668,7 @@ public class editDelete {
                 String history = rs.getString("history");
                 String nameRoom = rs.getString("nameRoom");
                 stringList1.add(new Account(id, code, pass, name, age, gender, nameClass, status, history, nameRoom));
-
             }
-            for (int i = 0; i < stringList1.size(); i++) {
-
-            }
-
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -716,6 +677,7 @@ public class editDelete {
     }
 
     List<Room> ListRoom() {
+        List<Room> stringList1 = new ArrayList<>();
         try {
             String sql1 = "select room.idRoom,nameRoom,room.gender,amount,count(room.idRoom) as currentAmount,nameHouse,nameFlat "
                     + "from account join room on account.idRoom=room.idRoom join flat on room.idFlat=flat.idFlat join house on room.idHouse=house.idHouse "
@@ -732,12 +694,12 @@ public class editDelete {
                 int currentAmount = rs.getInt("currentAmount");
                 String nameHouse = rs.getString("nameHouse");
                 String nameFlat = rs.getString("nameFlat");
-                stringList4.add(new Room(idRoom, name, gender, amount, currentAmount, nameHouse, nameFlat));
+                stringList1.add(new Room(idRoom, name, gender, amount, currentAmount, nameHouse, nameFlat));
             }
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return stringList4;
+        return stringList1;
     }
 }
