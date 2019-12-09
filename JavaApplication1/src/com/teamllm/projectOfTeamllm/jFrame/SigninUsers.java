@@ -200,8 +200,6 @@ public class SigninUsers extends javax.swing.JFrame {
                     }
                 } else {
                     JOptionPane.showMessageDialog(SigninUsers.this, "Thông tin User không chính xác", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                    new SigninUsers().setVisible(true);
-                    this.dispose();
                 }
             } catch (IOException ex) {
                 Logger.getLogger(SigninUsers.class.getName()).log(Level.SEVERE, null, ex);

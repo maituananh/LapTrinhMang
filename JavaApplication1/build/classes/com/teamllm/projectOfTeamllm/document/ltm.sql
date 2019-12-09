@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th12 07, 2019 lúc 10:20 AM
--- Phiên bản máy phục vụ: 10.4.6-MariaDB
--- Phiên bản PHP: 7.3.9
+-- Thời gian đã tạo: Th12 09, 2019 lúc 04:25 AM
+-- Phiên bản máy phục vụ: 10.1.35-MariaDB
+-- Phiên bản PHP: 7.2.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -39,7 +39,7 @@ CREATE TABLE `account` (
   `idRoom` int(10) DEFAULT NULL,
   `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `history` varchar(100) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
-  `role` int(1) NOT NULL DEFAULT 0
+  `role` int(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
@@ -54,15 +54,15 @@ INSERT INTO `account` (`idStudent`, `code`, `password`, `name`, `age`, `gender`,
 (141114, 2222, '2222', 'Huỳnh Đắc Phú', 21, 'Nam', '', 0, '', NULL, 1),
 (141115, 1111, '1111', 'Mai Tuấn Anh', 21, 'Nam', '', 0, '', NULL, 1),
 (141116, 1416, '1416', 'Bùi Thị Như Ngọc', 21, 'Nữ', '1312', 1212, 'No', NULL, 0),
-(141117, 1417, '1417', 'Bùi Tiến Dũng', 21, 'Nam', '1311', 1211, 'No', NULL, 0),
-(141118, 1418, '1418', 'Tr?n Quang Duy', 0, 'nam', '16CNTT1', 1215, 'Waiting', NULL, 0),
+(141117, 1417, '1417', 'Bùi Tiến Dũng', 21, 'Nam', '1311', 1215, 'Waiting', NULL, 0),
+(141118, 1418, '1418', 'Trần Quang Duy', 0, 'nam', '16CNTT1', 1215, 'Yes', NULL, 0),
 (141127, 1419, '1419', 'Nguyen Anh Thy', 20, 'Nam', '16SPT', 1211, 'Yes', NULL, 0),
 (141128, 1421, '1421', 'Nguyen Hữu Nho', 21, 'Nam', '16CNTT1', 1211, 'Yes', NULL, 0),
 (141129, 1422, '1423', 'Nguyen Văn Hưng', 21, 'Nam', '15SPT', 1213, 'No', NULL, 0),
 (141130, 1423, '1423', 'Lê Thanh Hoàng', 19, 'Nam', '18CNTT1', 1213, 'Yes', NULL, 0),
 (141131, 1424, '1424', 'Trần Văn Minh', 19, 'Nam', '18CNTT2', 1213, 'No', NULL, 1),
 (141132, 1425, '1425', 'Lê Thị Huyền', 19, 'Nu', '18CNTT2', 1212, 'Yes', NULL, 0),
-(141133, 1426, '1426', 'Trần Thị Thuỳ Chi', 20, 'Nu', '17CNTT2', 1212, 'Yes', NULL, 0),
+(141133, 1426, '1426', 'Trần Thị Thuỳ Chi', 20, 'Nu', '17CNTT2', 1212, 'No', NULL, 0),
 (141134, 1427, '1427', 'Hà Thị Minh Anh', 19, 'Nu', '18CNTT2', 1214, 'Yes', NULL, 0),
 (141135, 1428, '1428', 'Nguyễn Thị Mai', 20, 'Nu', '18CNTT2', 1214, 'Yes', NULL, 0),
 (141136, 1429, '1429', 'Đào Thị Hòa', 19, 'Nu', '18CNTT2', 1214, 'Yes', NULL, 0),
@@ -76,11 +76,10 @@ INSERT INTO `account` (`idStudent`, `code`, `password`, `name`, `age`, `gender`,
 (141144, 1436, '1436', 'Hồ Ngọc Hà', 21, 'Nữ', '16SPT', 1221, 'Yes', NULL, 0),
 (141145, 1435, '1435', 'Lê Văn Đạt', 20, 'Nam', '17SPT', 1219, 'Yes', NULL, 1),
 (141146, 1437, '1437', 'Cao Hữu Bằng', 19, 'Nam', '18SPT', 1219, 'Yes', NULL, 1),
-(141147, 1425, '1425', 'Phan V?n', 20, 'nam', '17CNTT1', NULL, NULL, NULL, 0),
-(141148, 1426, '1426', 'Lê Su', 20, 'nu', '17SPT', 1212, 'Yes', NULL, 0),
-(141149, 1451, '1451', 'Lê Th? Anh Mai', 20, 'nu', '17CNTT1', NULL, NULL, NULL, 0),
+(141149, 1451, '1451', 'Lê Thị Anh Mai', 20, 'nu', '17CNTT1', NULL, NULL, NULL, 0),
 (141150, 1452, '1452', 'Lê Huyền', 21, 'nu', '16CNTT1', NULL, NULL, NULL, 0),
-(141151, 1453, '1453', 'Nguyễn Thúy', 20, 'nu', '17CNTT1', NULL, 'no', NULL, 0);
+(141151, 1453, '1453', 'Nguyễn Thúy', 20, 'nu', '17CNTT1', NULL, 'no', NULL, 0),
+(141152, 1000, '1212', 'mtas1', 20, 'nam', '16CNTT3', NULL, 'no', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -203,7 +202,7 @@ ALTER TABLE `room`
 -- AUTO_INCREMENT cho bảng `account`
 --
 ALTER TABLE `account`
-  MODIFY `idStudent` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141152;
+  MODIFY `idStudent` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141153;
 
 --
 -- AUTO_INCREMENT cho bảng `flat`
