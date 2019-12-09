@@ -41,9 +41,6 @@ public class WorkerThread extends Thread {
                     int res = center.login(Integer.parseInt(code.trim()), pass.trim());
                     op.writeUTF("" + res); // Send the results to client
                     break;
-
-                case 2:
-                    break;
             }
             
         } catch (IOException e) {

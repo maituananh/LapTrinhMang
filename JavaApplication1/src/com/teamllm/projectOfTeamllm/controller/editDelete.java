@@ -10,7 +10,6 @@ import java.util.List;
 
 import com.teamllm.projectOfTeamllm.model.Class;
 import com.teamllm.projectOfTeamllm.model.Flat;
-import com.teamllm.projectOfTeamllm.model.Gender;
 import com.teamllm.projectOfTeamllm.model.House;
 import com.teamllm.projectOfTeamllm.model.Room;
 import com.teamllm.projectOfTeamllm.model.Account;
@@ -43,10 +42,8 @@ public class editDelete {
                 String status = rs.getString("status");
                 String nameRoom = rs.getString("nameRoom");
                 stringList1.add(new Account(id, code, pass, name, age, gender, nameClass, status, nameRoom));
-
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return stringList1;
@@ -73,27 +70,23 @@ public class editDelete {
                 String history = rs.getString("history");
                 String nameRoom = rs.getString("nameRoom");
                 stringList1.add(new Account(id, code, pass, name, age, gender, nameClass, status, history, nameRoom));
-
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return stringList1;
     }
 
     public Account thongTinID(int id) {
-
         try {
             Account acc = new Account();
             String sql1 = "Select * from account where idStudent = ?";
-            PreparedStatement pre;
-            pre = connectSQL.prepareStatement(sql1);
+            PreparedStatement pre = connectSQL.prepareStatement(sql1);
             pre.setInt(1, AccStatic.getIdStudent());
             ResultSet rs = pre.executeQuery();
             while (rs.next()) {
                 acc.setFullname(rs.getString("name"));
-                acc.setId(rs.getInt("age"));
+                acc.setAge(rs.getInt("age"));
                 acc.setGender(rs.getString("gender"));
                 acc.setClassName(rs.getString("className"));
             }
@@ -105,7 +98,6 @@ public class editDelete {
     }
 
     public void them(Account stringList1) {
-
         String sql = "INSERT INTO account (code,password, name, age, gender, className, status)"
                 + "VALUES (?,?,?,?,?,?,?)";
         PreparedStatement pre;
@@ -121,14 +113,12 @@ public class editDelete {
             pre.setString(7, "no"); // mặc dinh khi them moi status  = no
             pre.execute();
         } catch (SQLException e) {
-
             e.printStackTrace();
         }
 
     }
 
     public void sua(Account stringList1) {
-
         String sql = "UPDATE account SET name=?,age=?,gender=?,className=? WHERE idStudent= ?";
         PreparedStatement pre;
         try {
@@ -139,7 +129,6 @@ public class editDelete {
             pre.setString(4, stringList1.getClassName());
             pre.setInt(5, AccStatic.getIdStudent());
             pre.executeUpdate();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -153,7 +142,6 @@ public class editDelete {
             preparedStatement.setInt(1, code);
             preparedStatement.setString(2, pass);
             ResultSet rs = preparedStatement.executeQuery();
-
             while (rs.next()) {
                 student.setId(rs.getInt("idStudent"));
                 student.setCode(rs.getInt("code"));
@@ -165,7 +153,6 @@ public class editDelete {
             } else {
                 return 0;
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -173,7 +160,6 @@ public class editDelete {
     }
 
     public boolean authorization(int id) {
-        System.out.println("id là : " + id);
         String sql = "select * from account WHERE idStudent = ?";
         Account student = new Account();
         try {
@@ -189,7 +175,6 @@ public class editDelete {
             } else {
                 return false;
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -230,7 +215,6 @@ public class editDelete {
             pre.setString(1, stringList1.getPass());
             pre.setInt(2, AccStatic.getIdStudent());
             pre.executeUpdate();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -257,8 +241,6 @@ public class editDelete {
                 String history = rs.getString("history");
                 String nameRoom = rs.getString("nameRoom");
                 stringList1.add(new Account(id, code, pass, name, age, gender, nameClass, status, history, nameRoom));
-
-                System.out.println(id);
             }
             rs.close();
             preparedStatement.close();
@@ -289,8 +271,6 @@ public class editDelete {
                 String history = rs.getString("history");
                 String nameRoom = rs.getString("nameRoom");
                 stringList1.add(new Account(id, code, pass, name, age, gender, nameClass, status, history, nameRoom));
-
-                System.out.println(name);
             }
             rs.close();
             preparedStatement.close();
@@ -321,7 +301,6 @@ public class editDelete {
                 String history = rs.getString("history");
                 String nameRoom = rs.getString("nameRoom");
                 stringList1.add(new Account(id, code, pass, name, age, gender, nameClass, status, history, nameRoom));
-                System.out.println(code);
             }
             rs.close();
             preparedStatement.close();
@@ -344,18 +323,15 @@ public class editDelete {
             ResultSet rs = pre.executeQuery();
             while (rs.next()) {
                 sv.setIdRoom(rs.getInt("idRoom"));
-
             }
             return sv;
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
     }
 
     public String suaStatus(int code, String status) {
-
         String sql = "UPDATE  ltm.account SET status=? WHERE code = ?";
         PreparedStatement pre;
         try {
@@ -371,7 +347,6 @@ public class editDelete {
     }
 
     public String suaStatusComplete(int code, String status) {
-
         String sql = "UPDATE  ltm.account SET status=? WHERE code = ?";
         PreparedStatement pre;
         try {
@@ -387,7 +362,6 @@ public class editDelete {
     }
 
     public int suaIDRoom(int code, int room) {
-
         String sql = "UPDATE  ltm.account SET idRoom=? WHERE code = ?";
         PreparedStatement pre;
         try {
@@ -395,7 +369,6 @@ public class editDelete {
             pre.setInt(1, room);
             pre.setInt(2, code);
             pre.executeUpdate();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -409,12 +382,9 @@ public class editDelete {
             pre = connectSQL.prepareStatement(sql);
             pre.setInt(1, id);
             pre.executeUpdate();
-
         } catch (SQLException e) {
-
             e.printStackTrace();
         }
-
     }
 
     public List<Class> classRoom() {
@@ -430,9 +400,7 @@ public class editDelete {
                 String name = rs.getString("nameClass");
                 listST.add(new Class(id, code, name));
             }
-
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return listST;
@@ -498,7 +466,6 @@ public class editDelete {
             String sql1 = "Select * from ltm.room where gender='" + gender + "'";
             PreparedStatement pre;
             pre = connectSQL.prepareStatement(sql1);
-            //pre.setString(1, gender); //loi cho nay
             ResultSet rs = pre.executeQuery(sql1);
             while (rs.next()) {
                 Room h = new Room();
@@ -567,9 +534,10 @@ public class editDelete {
     public List<Room> ListRoom(String namOrNu) {
         List<Room> stringList1 = new ArrayList<>();
         try {
-            String sql1 = "SELECT * FROM ltm.room"
-                    + " join flat on room.idFlat=flat.idFlat "
-                    + "join house on room.idHouse=house.idHouse where gender='" + namOrNu + "'";
+            String sql1 = "select room.idRoom,nameRoom,room.gender,amount,count(room.idRoom) as currentAmount,nameHouse,nameFlat "
+                    + "from account join room on account.idRoom=room.idRoom join flat on room.idFlat=flat.idFlat join house on room.idHouse=house.idHouse "
+                    + "where room.gender = '" + namOrNu + "' "
+                    + "group by idRoom,nameRoom,gender,amount,nameHouse,nameFlat";
             PreparedStatement pre;
             pre = connectSQL.prepareStatement(sql1);
             ResultSet rs = pre.executeQuery(sql1);
@@ -599,13 +567,10 @@ public class editDelete {
                     + room + "' and nameFlat='"
                     + flat + "' and nameHouse='"
                     + house + "'";
-
-            PreparedStatement pre;
-            pre = connectSQL.prepareStatement(sql);
+            PreparedStatement pre = connectSQL.prepareStatement(sql);
             ResultSet rs = pre.executeQuery(sql);
             while (rs.next()) {
                 id = rs.getInt("idRoom");
-                System.out.println(id);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -618,14 +583,12 @@ public class editDelete {
         String sql = "UPDATE  account SET idRoom='"
                 + idRoom + "' WHERE code='"
                 + code + "'";
-
         PreparedStatement pre;
         try {
             pre = connectSQL.prepareStatement(sql);
             pre.setInt(1, idRoom);
             pre.setInt(2, code);
             pre.executeUpdate();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -634,11 +597,11 @@ public class editDelete {
     public String findStatusByIdUser() {
         String status = "";
         try {
-            String sql = "SELECT account.status FROM ltm.account where " + AccStatic.getIdStudent();
+            String sql = "SELECT * FROM account where idStudent = " + AccStatic.getIdStudent();
             PreparedStatement pre = connectSQL.prepareStatement(sql);
             ResultSet rs = pre.executeQuery(sql);
             while (rs.next()) {
-                status = rs.getString("status");
+                return rs.getString("status");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -670,7 +633,6 @@ public class editDelete {
                 stringList1.add(new Account(id, code, pass, name, age, gender, nameClass, status, history, nameRoom));
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return stringList1;
@@ -697,7 +659,6 @@ public class editDelete {
                 stringList1.add(new Room(idRoom, name, gender, amount, currentAmount, nameHouse, nameFlat));
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return stringList1;

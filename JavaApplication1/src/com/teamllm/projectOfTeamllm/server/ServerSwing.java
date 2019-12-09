@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.teamllm.projectOfTeamllm.server;
 
 import java.io.IOException;
@@ -11,12 +6,8 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
- *
- * @author MaiTuanAnhLapTop
- */
 public class ServerSwing {
-    public static final int NUM_OF_THREAD = 4;
+    public static final int NUM_OF_THREAD = 1;
     public final static int SERVER_PORT = 7;
  
     public static void main(String[] args) throws IOException {
@@ -30,7 +21,7 @@ public class ServerSwing {
                 try {
                     Socket socket = serverSocket.accept(); 
                     WorkerThread handler = new WorkerThread(socket);
-                    executor.execute(handler);
+                    executor.execute(handler); // thực thi luồng
                 } catch (IOException e) {
                     System.err.println(" Connection Error: " + e);
                 }
