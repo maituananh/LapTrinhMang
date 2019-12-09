@@ -7,15 +7,6 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- *
- * @author Admin
- */
 public class ListRoomForGender extends javax.swing.JFrame {
 
     DefaultTableModel defaultTableModel;
@@ -25,9 +16,6 @@ public class ListRoomForGender extends javax.swing.JFrame {
     int codeS;
     String gen;
 
-    /**
-     * Creates new form ListRoom
-     */
     public ListRoomForGender(String gender, int code) {
         center = new center();
         sinhvien = new Account();
